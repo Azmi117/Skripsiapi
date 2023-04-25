@@ -82,9 +82,11 @@ class GuruController extends Controller
     public function tambahHafalan(Request $request)
     {
 
-        $datauser = $this->guard()->user();
+        $id_kelas = Auth::user()->id_kelas;
+        //$datauser = response()->json($this->guard()->user());
+        //$datauservar = json_decode($datauser);
 
-        $datamurid = Murid::where('id_kelas', $datauser['id_kelas'])->exists();
+        $datamurid = Murid::where('id_kelas', $id_kelas)->exists();
 
 
         $request->validate([
@@ -96,11 +98,11 @@ class GuruController extends Controller
 
         foreach($datamurid as $r) {
 
-            $tilawah = Tilawah::create([
+            $hafalan = Hafalan::create([
                 'surah' => $request->surah,
                 'juz' => $request->juz,
                 'ayat' => $request->ayat,
-                'id_kelas' => $datauser['id_kelas'],
+                'id_kelas' => $datauservar->id_kelas,
                 'id_murid' => $r['id'],
                 'created_at' => time(),
     
@@ -108,10 +110,10 @@ class GuruController extends Controller
 
         }
 
-        if ($tilawah) {
+        if ($hafalan) {
           return response()->json([
             'status' => 'success',
-            'message' => 'User created successfully',
+            'message' => 'Data created successfully',
             ],
             200);
         } else {

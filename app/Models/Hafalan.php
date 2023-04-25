@@ -14,6 +14,8 @@ class Hafalan extends Model
         'updated_at',
     ];
 
+    protected $table = 'kelass';
+
 
   
     

@@ -101,7 +101,7 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required|unique:users',
             'email' => 'required|email|unique:users',
-            'fullname' => 'required',
+            'nama_lengkap' => 'required',
             'password' => 'required',
             'ttl' => 'required',
           
@@ -110,7 +110,7 @@ class AuthController extends Controller
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
-            'fullname' => $request->fullname,
+            'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
             'level' => 'admin',
             'ttl' => $request->ttl,

@@ -12,4 +12,6 @@ class Kelas extends Model
     protected $fillable =[
         'nama_kelas','created_at','updated_at','status','id_kelas','id_murid','id_penyetor','created_at','updated_at',
     ];
+
+    protected $table = 'kelas';
 }

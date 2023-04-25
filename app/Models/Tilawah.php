@@ -18,6 +18,8 @@ class Tilawah extends Model
         'created_at',
         'updated_at',
       ];
+
+      protected $table = 'tilawah';
   
       
   

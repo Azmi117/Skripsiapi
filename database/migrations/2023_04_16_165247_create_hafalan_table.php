@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hafalans', function (Blueprint $table) {
+        Schema::create('hafalan', function (Blueprint $table) {
             $table->id();
             $table->string('surah');
             $table->string('juz');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('status');
             $table->unsignedBigInteger('id_kelas');
             $table->unsignedBigInteger('id_murid');
-            $table->unsignedBigInteger('id_penyetor');
+            $table->unsignedBigInteger('id_penyetor')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hafalans');
+        Schema::dropIfExists('hafalan');
     }
 };

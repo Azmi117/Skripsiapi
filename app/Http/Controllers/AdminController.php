@@ -82,7 +82,7 @@ class AdminController extends Controller
         $request->validate([
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'fullname' => 'required',
+            'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
@@ -94,7 +94,7 @@ class AdminController extends Controller
         $user = User::create([
             'email' => $request->email,
             'username' => $request->username,
-            'fullname' => $request->fullname,
+            'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
             'level' => 'user',
             'ttl' => $request->ttl,
@@ -124,7 +124,7 @@ class AdminController extends Controller
         $request->validate([
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'fullname' => 'required',
+            'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
@@ -135,7 +135,7 @@ class AdminController extends Controller
         $user = User::create([
             'email' => $request->email,
             'username' => $request->username,
-            'fullname' => $request->fullname,
+            'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
             'level' => 'user',
             'ttl' => $request->ttl,
@@ -172,7 +172,7 @@ class AdminController extends Controller
          $request->validate([
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'fullname' => 'required',
+            'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
@@ -184,7 +184,7 @@ class AdminController extends Controller
          $data = $user->update([
            $user->email => $request->email,
            $user->username => $request->username,
-           $user->fullname => $request->fullname,
+           $user->nama_lengkap => $request->nama_lengkap,
            $user->password => $request->password,
            $user->level => $request->level,
            $user->ttl => $request->ttl,
@@ -221,7 +221,7 @@ class AdminController extends Controller
          $request->validate([
             'email' => 'required|email|unique:users',
             'username' => 'required|unique:users',
-            'fullname' => 'required',
+            'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
@@ -234,7 +234,7 @@ class AdminController extends Controller
          $data = $user->update([
            $user->email => $request->email,
            $user->username => $request->username,
-           $user->fullname => $request->fullname,
+           $user->nama_lengkap => $request->nama_lengkap,
            $user->password => $request->password,
            $user->level => $request->level,
            $user->ttl => $request->ttl,
@@ -292,11 +292,11 @@ public function daftarKelas()
     public function tambahKelas(Request $request)
     {
         $request->validate([
-            'nama_kelas' => 'required|unique:kelass',
+            'nama_kelas' => 'required|unique:kelas',
         ]);
 
 
-        $kelas = User::create([
+        $kelas = Kelas::create([
             'nama_kelas' => $request->nama_kelas,
             'created_at' => time(),
 
@@ -305,7 +305,7 @@ public function daftarKelas()
         if ($kelas) {
           return response()->json([
             'status' => 'success',
-            'message' => 'User created successfully',
+            'message' => 'Data created successfully',
             ],
             200);
         } else {
@@ -328,7 +328,7 @@ public function daftarKelas()
          }
 
          $request->validate([
-            'nama_kelas' => 'required|unique:kelass',
+            'nama_kelas' => 'required|unique:kelas',
         ]);
 
          
@@ -396,7 +396,7 @@ public function daftarMurid()
         ]);
 
 
-        $murid = User::create([
+        $murid = Murid::create([
           'nama_lengkap' => $request->nama_lengkap,
           'ttl' => $request->ttl,
           'jenis_kelamin' => $request->jenis_kelamin,

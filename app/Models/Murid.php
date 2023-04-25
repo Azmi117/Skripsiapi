@@ -10,8 +10,14 @@ class Murid extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama_kelas',
+        'nama_lengkap',
+        'ttl',
+        'jenis_kelamin',
+        'id_kelas',
         'created_at',
         'updated_at',
+        'deleted_at',
     ];
+
+    protected $table = 'murid';
 }

@@ -18,4 +18,6 @@ class Murojaah extends Model
         'created_at',
         'updated_at',
       ];
+
+      protected $table = 'murojaah';
 }
