@@ -5,21 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tilawah extends Model
+class Murid extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'id',
-        'surah',
-        'juz',
-        'ayat',
-        'id_kelas',
+        'nama_kelas',
         'created_at',
         'updated_at',
-      ];
-  
-      
-  
-    
+    ];
 }

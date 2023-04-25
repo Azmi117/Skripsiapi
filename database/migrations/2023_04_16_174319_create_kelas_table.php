@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('kelass', function (Blueprint $table) {
             $table->id();
             $table->string('nama_kelas');
-            $table->string('id_guru');
             $table->timestamps();
             $table->softDeletes();
 

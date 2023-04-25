@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('ttl');
             $table->string('foto');
             $table->unsignedBigInteger('id_murid');
+            $table->unsignedBigInteger('id_kelas');
             $table->unsignedBigInteger('role_id');
             $table->rememberToken();
             $table->timestamps();
@@ -29,6 +30,7 @@ return new class extends Migration
 
             $table->foreign('role_id')->references('id')->on('role');
             $table->foreign('id_murid')->references('id')->on('murid');
+            $table->foreign('id_kelas')->references('id')->on('kelas');
         });
     }
 

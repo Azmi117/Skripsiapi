@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tilawah extends Model
+class Murojaah extends Model
 {
     use HasFactory;
 
@@ -18,8 +18,4 @@ class Tilawah extends Model
         'created_at',
         'updated_at',
       ];
-  
-      
-  
-    
 }
