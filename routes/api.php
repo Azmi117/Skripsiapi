@@ -70,6 +70,7 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('guru')->group(function () {
 
+        Route::get('me', [GuruController::class, 'me']);
         Route::get('profile', [GuruController::class, 'profile']);
         Route::get('daftarmurid', [GuruController::class, 'daftarMurid']);
         Route::get('daftarhafalanmurid/{id}', [GuruController::class, 'daftarHafalanMurid']);

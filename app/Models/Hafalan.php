@@ -10,11 +10,11 @@ class Hafalan extends Model
     use HasFactory;
 
     protected $fillable =[
-        'surat','juz','ayat','status','id_kelas','id_murid','id_penyetor','created_at',
+        'surah','juz','ayat','status','id_kelas','id_murid','id_penyetor','created_at',
         'updated_at',
     ];
 
-    protected $table = 'kelass';
+    protected $table = 'hafalan';
 
 
   

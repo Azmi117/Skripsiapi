@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 use App\Models\Murid;
 use App\Models\Murojaah;
@@ -86,7 +88,7 @@ class GuruController extends Controller
         //$datauser = response()->json($this->guard()->user());
         //$datauservar = json_decode($datauser);
 
-        $datamurid = Murid::where('id_kelas', $id_kelas)->exists();
+        $datamurid = Murid::where('id_kelas', $id_kelas)->get();
 
 
         $request->validate([
@@ -102,7 +104,8 @@ class GuruController extends Controller
                 'surah' => $request->surah,
                 'juz' => $request->juz,
                 'ayat' => $request->ayat,
-                'id_kelas' => $datauservar->id_kelas,
+                'status' => 0,
+                'id_kelas' => $id_kelas,
                 'id_murid' => $r['id'],
                 'created_at' => time(),
     
@@ -305,10 +308,19 @@ class GuruController extends Controller
       ]);
     }
 
+    public function me()
+    {
+        return response()->json($this->guard()->user());
+    }
+
     public function tambahMurojaah(Request $request)
     {
 
-        $datauser = $this->guard()->user();
+        
+      
+        $datauser = Auth::user();
+
+        $user = JWTAuth::parseToken()->toUser();
 
         $request->validate([
             'surah' => 'required',
@@ -321,7 +333,7 @@ class GuruController extends Controller
             'surah' => $request->surah,
             'juz' => $request->juz,
             'ayat' => $request->ayat,
-            'id_kelas' => $datauser['id_kelas'],
+            'id_kelas' => $user->id_kelas,
             'created_at' => time(),
 
         ]);
@@ -329,7 +341,7 @@ class GuruController extends Controller
         if ($murojaah) {
           return response()->json([
             'status' => 'success',
-            'message' => 'User created successfully',
+            'message' => 'Data created successfully',
             ],
             200);
         } else {

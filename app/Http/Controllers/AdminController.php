@@ -25,7 +25,7 @@ class AdminController extends Controller
 
     public function daftarGuru()
     {
-      $isExixts = User::where('level', 'Guru')->exists();
+      $isExixts = User::where('level', 'Guru')->get();
 
       if (!$isExixts) {
         return response()->json([
@@ -44,7 +44,7 @@ class AdminController extends Controller
 
     public function daftarOrtu()
     {
-      $isExixts = User::where('level', 'Ortu')->exists();
+      $isExixts = User::where('level', 'Ortu')->get();
 
       if (!$isExixts) {
         return response()->json([
@@ -96,7 +96,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
-            'level' => 'user',
+            'level' => 'Ortu',
             'ttl' => $request->ttl,
             'id_murid' => $request->id_murid,
             'id_murid' => $request->id_kelas,
@@ -137,7 +137,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
-            'level' => 'user',
+            'level' => 'Guru',
             'ttl' => $request->ttl,
             'id_kelas' => $request->id_kelas,
             'created_at' => time(),
