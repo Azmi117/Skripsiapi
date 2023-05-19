@@ -129,7 +129,8 @@ class GuruController extends Controller
 
     public function updateHafalan(Request $request, $id)
     {
-      $datauser = $this->guard()->user();
+
+      //$datauser = $this->guard()->user();
         $hafalan = Hafalan::find($id);
 
         if(!$hafalan) {
@@ -139,22 +140,20 @@ class GuruController extends Controller
            ]);
          }
 
-         $request->validate([
-            'surah' => 'required',
-            'juz' => 'required',
-            'ayat' => 'required',
-            'status' => 'required',
-        ]);
-
-         
+           $validate = $request->validate([
+             'surah' => 'required',
+             'juz' => 'required',
+             'ayat' => 'required',
+             'status' => 'required',
+          ]);
 
          $data = $hafalan->update([
-           $hafalan->surah => $request->surah,
-           $hafalan->juz => $request->juz,
-           $hafalan->ayat => $request->ayat,
-           $hafalan->status => $request->status,
-           $hafalan->id_kelas => $datauser['id_kelas'],
-           $hafalan->updated_at => time(),
+           'surah' => $request->surah,
+           'juz' => $request->juz,
+           'ayat' => $request->ayat,
+           'status' => $request->status,
+           //$hafalan->id_kelas => $datauser['id_kelas'],
+           //$hafalan->updated_at => time(),
          ]);
 
          if (!$data) {
@@ -165,8 +164,8 @@ class GuruController extends Controller
          } else {
            return response()->json([
              'message' => 'Data successfully updated',
-             'data' => $data,
              'status' => 200,
+             'data' => $hafalan,
            ]);
          }
         
@@ -258,10 +257,10 @@ class GuruController extends Controller
          
 
          $data = $tilawah->update([
-           $tilawah->surah => $request->surah,
-           $tilawah->juz => $request->juz,
-           $tilawah->ayat => $request->ayat,
-           $tilawah->updated_at => time(),
+           "surah" => $request->surah,
+           "juz" => $request->juz,
+           "ayat" => $request->ayat,
+           //$tilawah->updated_at => time(),
          ]);
 
          if (!$data) {
@@ -272,8 +271,8 @@ class GuruController extends Controller
          } else {
            return response()->json([
              'message' => 'Data successfully updated',
-             'data' => $data,
              'status' => 200,
+             'data' => $tilawah,
            ]);
          }
         
@@ -372,10 +371,11 @@ class GuruController extends Controller
          
 
          $data = $murojaah->update([
-           $murojaah->surah => $request->surah,
-           $murojaah->juz => $request->juz,
-           $murojaah->ayat => $request->ayat,
-           $murojaah->updated_at => time(),
+           "surah" => $request->surah,
+           "juz" => $request->juz,
+           "ayat" => $request->ayat,
+           //$tilawah->updated_at => time(),
+    
          ]);
 
          if (!$data) {
@@ -386,8 +386,8 @@ class GuruController extends Controller
          } else {
            return response()->json([
              'message' => 'Data successfully updated',
-             'data' => $data,
              'status' => 200,
+             'data' => $murojaah,
            ]);
          }
         

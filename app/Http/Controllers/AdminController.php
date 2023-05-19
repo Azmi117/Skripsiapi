@@ -128,7 +128,7 @@ class AdminController extends Controller
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
-            'id_kelas',
+            'id_kelas' => 'required',
         ]);
 
 
@@ -140,7 +140,7 @@ class AdminController extends Controller
             'level' => 'Guru',
             'ttl' => $request->ttl,
             'id_kelas' => $request->id_kelas,
-            'created_at' => time(),
+            //'created_at' => time(),
 
         ]);
 
@@ -160,9 +160,9 @@ class AdminController extends Controller
 
     public function updateGuru(Request $request, $id)
     {
-        $user = User::find($id);
+        $guru = User::find($id);
 
-        if(!$user) {
+        if(!$guru) {
            return response()->json([
              'message' => 'Data cannot find',
              'status' => 400,
@@ -170,26 +170,26 @@ class AdminController extends Controller
          }
 
          $request->validate([
-            'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
+            'email' => 'required',
+            'username' => 'required',
             'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
-            'id_kelas',
+            'id_kelas' => 'required',
         ]);
 
          
 
-         $data = $user->update([
-           $user->email => $request->email,
-           $user->username => $request->username,
-           $user->nama_lengkap => $request->nama_lengkap,
-           $user->password => $request->password,
-           $user->level => $request->level,
-           $user->ttl => $request->ttl,
-           $user->id_kelas => $request->id_kelas,
-           $user->updated_at => time(),
+         $data = $guru->update([
+           'email' => $request->email,
+           'username' => $request->username,
+           'nama_lengkap' => $request->nama_lengkap,
+           'password' => $request->password,
+           'level' => $request->level,
+           'ttl' => $request->ttl,
+           'id_kelas' => $request->id_kelas,
+           //$kelas->updated_at => time(),
          ]);
 
          if (!$data) {
@@ -226,21 +226,21 @@ class AdminController extends Controller
             'level' => 'required',
             'ttl' => 'required',
             'id_murid',
-            'id_kelas',
+            // 'id_kelas',
         ]);
 
          
 
          $data = $user->update([
-           $user->email => $request->email,
-           $user->username => $request->username,
-           $user->nama_lengkap => $request->nama_lengkap,
-           $user->password => $request->password,
-           $user->level => $request->level,
-           $user->ttl => $request->ttl,
-           $user->id_murid => $request->id_murid,
-           $user->id_kelas => $request->id_kelas,
-           $user->updated_at => time(),
+           'email' => $request->email,
+           'username' => $request->username,
+           'nama_lengkap' => $request->nama_lengkap,
+           'password' => $request->password,
+           'level' => $request->level,
+           'ttl' => $request->ttl,
+           'id_murid' => $request->id_murid,
+          //  'id_kelas' => $request->id_kelas,
+          //  'updated_at' => time(),
          ]);
 
          if (!$data) {
@@ -334,8 +334,8 @@ public function daftarKelas()
          
 
          $data = $kelas->update([
-           $kelas->nama_kelas => $request->nama_kelas,
-           $kelas->updated_at => time(),
+           'nama_kelas' => $request->nama_kelas,
+           //$kelas->updated_at => time(),
          ]);
 
          if (!$data) {
@@ -431,20 +431,20 @@ public function daftarMurid()
          }
 
          $request->validate([
-          'nama_lengkap' => 'required',
-          'ttl' => 'required',
-          'jenis_kelamin' => 'required',
-          'id_kelas',
+            'nama_lengkap' => 'required',
+            'ttl' => 'required',
+            'jenis_kelamin' => 'required',
+            'id_kelas' => 'required',
         ]);
 
          
 
          $data = $murid->update([
-           $murid->nama_lengkap => $request->nama_lengkap,
-           $murid->ttl => $request->ttl,
-           $murid->jenis_kelamin => $request->jenis_kelamin,
-           $murid->id_kelas => $request->id_kelas,
-           $murid->updated_at => time(),
+           'nama_lengkap' => $request->nama_lengkap,
+           'tt' => $request->ttl,
+           'jenis_kelamin' => $request->jenis_kelamin,
+           'id_kelas' => $request->id_kelas,
+           //$kelas->updated_at => time(),
          ]);
 
          if (!$data) {
