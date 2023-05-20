@@ -219,8 +219,8 @@ class AdminController extends Controller
          }
 
          $request->validate([
-            'email' => 'required|email|unique',
-            'username' => 'required|unique',
+            'email' => 'required|string|unique:users,email,'.$user->id,
+            'username' => 'required|unique:users,username,' .$user->id,
             'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
