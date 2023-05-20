@@ -9,21 +9,36 @@ use App\Models\Murid;
 use App\Models\Murojaah;
 use App\Models\Tilawah;
 use App\Models\Hafalan;
-
-
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrtuController extends Controller
 {
     public function profile()
     {
-        return response()->json($this->guard()->user());
+      $datauser = $this->guard()->user();
+      $ortu = User::where('id', $datauser['id'])->get();
+
+      if (!$ortu) {
+        return response()->json([
+          'message' => 'Failed or Empty data',
+          'status' => 400,
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Success',
+        'status' => 200,
+        'data' => $ortu
+      ]);
+
+        //return response()->json($this->guard()->user());
     }
 
     public function dataMurid()
     {
       $datauser = $this->guard()->user();
-      $isExixts = Murid::where('id_murid', $datauser['id_murid'])->exists();
+      $isExixts = Murid::where('id', $datauser['id_murid'])->get();
       
 
       if (!$isExixts) {
@@ -43,8 +58,7 @@ class OrtuController extends Controller
 
     public function dataHafalanFilter($id_murid,$status)
     {
-      $isExixts = Hafalan::where('id_murid', $id_murid && 'status', $status)->exists();
-
+      $isExixts = Hafalan::where('id_murid', $id_murid)->where('status', $status)->get();
       if (!$isExixts) {
         return response()->json([
           'message' => 'Data Empty',
@@ -60,12 +74,13 @@ class OrtuController extends Controller
       ]);
     }
 
-    public function dataMurojaah()
+    public function dataMurojaah($data)
     {
-      $datauser = $this->guard()->user();
-        $isExixts = Murojaah::where('id_kelas', $datauser['id_kelas'])->exists();
+      // $datauser = $this->guard()->user();
+        //  $murid = Murid::where('id', $datauser->id_murid)->get();
+         $murojaah = Murojaah::where('id_kelas', $data)->get();
 
-        if (!$isExixts) {
+        if (!$murojaah) {
           return response()->json([
             'message' => 'Data Empty',
             'status' => 400
@@ -75,15 +90,15 @@ class OrtuController extends Controller
   
         return response()->json([
           'message' => 'Get successfully',
-          'data' => $isExixts,
+          'data' => $murojaah,
           'status' => 200,
         ]);
     }
 
-    public function dataTilawah()
+    public function dataTilawah($data)
     {
-      $datauser = $this->guard()->user();
-        $isExixts = Tilawah::where('id_kelas', $datauser['id_kelas'])->exists();
+      // $datauser = $this->guard()->user();
+        $isExixts = Tilawah::where('id_kelas', $data['id_kelas'])->exists();
 
         if (!$isExixts) {
           return response()->json([

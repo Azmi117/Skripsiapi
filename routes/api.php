@@ -94,9 +94,9 @@ Route::prefix('admin')->group(function () {
     Route::prefix('ortu')->group(function () {
         Route::get('profile', [OrtuController::class, 'profile']);
         Route::get('datamurid', [OrtuController::class, 'dataMurid']);
-        Route::get('datahafalanfilter/{id}/{status}', [OrtuController::class, 'dataHafalanFilter']);
-        Route::get('datarmurojaah', [GuruController::class, 'dataMurojaah']);
-        Route::get('datartilawah', [GuruController::class, 'dataTilawah']);
+        Route::get('datahafalanfilter/{id_murid}/{status}', [OrtuController::class, 'dataHafalanFilter']);
+        Route::get('datamurojaah/{data}', [OrtuController::class, 'dataMurojaah']);
+        Route::get('datatilawah/{data}', [OrtuController::class, 'dataTilawah']);
 
 
 

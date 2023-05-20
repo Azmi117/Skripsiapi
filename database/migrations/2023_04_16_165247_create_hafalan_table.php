@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('surah');
             $table->string('juz');
             $table->string('ayat');
-            $table->string('status');
+            $table->integer('status');
             $table->unsignedBigInteger('id_kelas');
             $table->unsignedBigInteger('id_murid');
             $table->unsignedBigInteger('id_penyetor')->nullable();

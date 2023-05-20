@@ -86,7 +86,7 @@ class AdminController extends Controller
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
-            'id_murid',
+            'id_murid' => 'required',
             'id_kelas',
         ]);
 
@@ -96,7 +96,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
-            'level' => 'Ortu',
+            'level' => 'Orangtua',
             'ttl' => $request->ttl,
             'id_murid' => $request->id_murid,
             'id_murid' => $request->id_kelas,
@@ -185,7 +185,7 @@ class AdminController extends Controller
            'email' => $request->email,
            'username' => $request->username,
            'nama_lengkap' => $request->nama_lengkap,
-           'password' => $request->password,
+           'password' => Hash::make($request->password),
            'level' => $request->level,
            'ttl' => $request->ttl,
            'id_kelas' => $request->id_kelas,
@@ -219,23 +219,23 @@ class AdminController extends Controller
          }
 
          $request->validate([
-            'email' => 'required|email|unique:users',
-            'username' => 'required|unique:users',
+            'email' => 'required|email|unique',
+            'username' => 'required|unique',
             'nama_lengkap' => 'required',
             'password' => 'required',
             'level' => 'required',
             'ttl' => 'required',
-            'id_murid',
+            'id_murid' => 'required',
             // 'id_kelas',
         ]);
 
          
 
-         $data = $user->update([
+         $data = $user->fill([
            'email' => $request->email,
            'username' => $request->username,
            'nama_lengkap' => $request->nama_lengkap,
-           'password' => $request->password,
+           'password' => Hash::make($request->password),
            'level' => $request->level,
            'ttl' => $request->ttl,
            'id_murid' => $request->id_murid,
@@ -243,7 +243,9 @@ class AdminController extends Controller
           //  'updated_at' => time(),
          ]);
 
-         if (!$data) {
+         $save = $data->save();
+
+         if (!$save) {
            return response()->json([
              'message' => 'Data cannot updated',
              'status' => 400,
@@ -251,7 +253,7 @@ class AdminController extends Controller
          } else {
            return response()->json([
              'message' => 'Data successfully updated',
-             'data' => $data,
+             'data' => $save,
              'status' => 200,
            ]);
          }
