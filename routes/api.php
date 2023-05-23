@@ -76,7 +76,7 @@ Route::prefix('admin')->group(function () {
         Route::get('daftarhafalanmurid/{id}', [GuruController::class, 'daftarHafalanMurid']);
         Route::get('daftarhafalanfilter/{id}/{status}', [GuruController::class, 'daftarHafalanFilter']);
         Route::post('tambahhafalan', [GuruController::class, 'tambahHafalan']);
-        Route::put('updatehafalan/{id}', [GuruController::class, 'updateHafalan']);
+        Route::post('updatehafalan/{id_input}', [GuruController::class, 'updateHafalan']);
         Route::delete('deletehafalan/{id}', [GuruController::class, 'destroyHafalan']);
         Route::get('daftartilawah', [GuruController::class, 'dataTilawah']);
         Route::post('tambahtilawah', [GuruController::class, 'tambahTilawah']);

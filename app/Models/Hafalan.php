@@ -11,7 +11,7 @@ class Hafalan extends Model
 
     protected $fillable =[
         'surah','juz','ayat','status','id_kelas','id_murid','id_penyetor','created_at',
-        'updated_at',
+        'updated_at', 'id_input',
     ];
 
     protected $table = 'hafalan';

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Str;
 
 use App\Models\Murid;
 use App\Models\Murojaah;
@@ -97,7 +98,7 @@ class GuruController extends Controller
             'ayat' => 'required',
         ]);
         
-
+        $random = Str::random(10);
         foreach($datamurid as $r) {
 
             $hafalan = Hafalan::create([
@@ -107,7 +108,8 @@ class GuruController extends Controller
                 'status' => 0,
                 'id_kelas' => $id_kelas,
                 'id_murid' => $r['id'],
-                'created_at' => time(),
+                // 'created_at' => time(),
+                'id_input' => $random,
     
             ]);   
 
@@ -127,11 +129,12 @@ class GuruController extends Controller
         }
     }
 
-    public function updateHafalan(Request $request, $id)
+    public function updateHafalan(Request $request, $id_input)
     {
 
       //$datauser = $this->guard()->user();
-        $hafalan = Hafalan::find($id);
+        // $hafalan = Hafalan::find($id);
+      $hafalan = Hafalan::where('id_input', $id_input)->get();
 
         if(!$hafalan) {
            return response()->json([
@@ -147,27 +150,33 @@ class GuruController extends Controller
              'status' => 'required',
           ]);
 
-         $data = $hafalan->update([
-           'surah' => $request->surah,
-           'juz' => $request->juz,
-           'ayat' => $request->ayat,
-           'status' => $request->status,
-           //$hafalan->id_kelas => $datauser['id_kelas'],
-           //$hafalan->updated_at => time(),
-         ]);
 
-         if (!$data) {
-           return response()->json([
-             'message' => 'Data cannot updated',
-             'status' => 400,
-           ]);
-         } else {
-           return response()->json([
-             'message' => 'Data successfully updated',
-             'status' => 200,
-             'data' => $hafalan,
-           ]);
-         }
+         foreach($hafalan as $r) {
+
+          // $data = $hafalan->update([
+            $r->surah = $request->surah;
+            $r->juz = $request->juz;
+            $r->ayat = $request->ayat;
+            $r->status = $request->status;
+            $r->save();
+            //$hafalan->id_kelas => $datauser['id_kelas'],
+            //$hafalan->updated_at => time(),
+          // ]);
+          
+
+      }
+
+      if (!$r) {
+        return response()->json([
+          'message' => 'Data cannot updated',
+          'status' => 400,
+        ]);
+      } else {
+        return response()->json([
+          'message' => 'Data successfully updated',
+          'status' => 200,
+        ]);
+      }
         
     }
 
