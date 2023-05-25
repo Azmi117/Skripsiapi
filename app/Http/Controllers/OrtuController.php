@@ -10,6 +10,7 @@ use App\Models\Murojaah;
 use App\Models\Tilawah;
 use App\Models\Hafalan;
 use App\Models\User;
+use App\Models\Kelas;
 use Illuminate\Http\Request;
 
 class OrtuController extends Controller
@@ -98,7 +99,7 @@ class OrtuController extends Controller
     public function dataTilawah($data)
     {
       // $datauser = $this->guard()->user();
-        $isExixts = Tilawah::where('id_kelas', $data['id_kelas'])->exists();
+        $isExixts = Tilawah::where('id_kelas', $data)->get();
 
         if (!$isExixts) {
           return response()->json([
@@ -114,6 +115,45 @@ class OrtuController extends Controller
           'status' => 200,
         ]);
     }
+
+    public function kelasAnak($id)
+    {
+      $isExixts = Kelas::find($id);
+
+       if (!$isExixts) {
+          return response()->json([
+            'message' => 'Data Empty',
+            'status' => 400
+          ]);
+        }
+  
+  
+        return response()->json([
+          'message' => 'Get successfully',
+          'data' => $isExixts,
+          'status' => 200,
+        ]);
+    }
+
+    public function dataGuru($id)
+    {
+      $isExixts = User::where('id_kelas', $id)->get();
+
+       if (!$isExixts) {
+          return response()->json([
+            'message' => 'Data Empty',
+            'status' => 400
+          ]);
+        }
+  
+  
+        return response()->json([
+          'message' => 'Get successfully',
+          'data' => $isExixts,
+          'status' => 200,
+        ]);
+    }
+
 
     /**
      * Get the guard to be used during authentication.

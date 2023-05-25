@@ -97,9 +97,8 @@ Route::prefix('admin')->group(function () {
         Route::get('datahafalanfilter/{id_murid}/{status}', [OrtuController::class, 'dataHafalanFilter']);
         Route::get('datamurojaah/{data}', [OrtuController::class, 'dataMurojaah']);
         Route::get('datatilawah/{data}', [OrtuController::class, 'dataTilawah']);
-
-
-
+        Route::get('kelas/{id}', [OrtuController::class, 'kelasAnak']);
+        Route::get('guru/{id}', [OrtuController::class, 'dataGuru']);
     });
 
 

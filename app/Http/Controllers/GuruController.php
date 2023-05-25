@@ -63,7 +63,7 @@ class GuruController extends Controller
       ]);
     }
 
-    public function dataHafalanFilter($id_murid,$status)
+    public function daftarHafalanFilter($id_murid,$status)
     {
       $isExixts = Hafalan::where('id_murid', $id_murid && 'status', $status)->exists();
 
@@ -73,7 +73,6 @@ class GuruController extends Controller
           'status' => 400
         ]);
       }
-
 
       return response()->json([
         'message' => 'Get successfully',
