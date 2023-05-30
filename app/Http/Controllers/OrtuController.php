@@ -154,6 +154,73 @@ class OrtuController extends Controller
         ]);
     }
 
+    public function updateOrtu(Request $request, $id)
+    {
+        $ortu = User::find($id);
+
+        if(!$ortu) {
+           return response()->json([
+             'message' => 'Data cannot find',
+             'status' => 400,
+           ]);
+         }
+
+         $request->validate([
+            'email' => 'required',
+            'username' => 'required',
+            'nama_lengkap' => 'required',
+            'ttl' => 'required',
+        ]);
+
+         
+
+         $data = $ortu->update([
+           'email' => $request->email,
+           'username' => $request->username,
+           'nama_lengkap' => $request->nama_lengkap,
+           'ttl' => $request->ttl,
+           //$kelas->updated_at => time(),
+         ]);
+
+         if (!$data) {
+           return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+         } else {
+           return response()->json([
+             'message' => 'Data successfully updated',
+             'data' => $data,
+             'status' => 200,
+           ]);
+         }
+        
+    }
+
+    public function updateHafalan(Request $request, $id)
+    {
+      $hafalan = Hafalan::find($id);
+
+      if (!$hafalan) {
+          return response()->json([
+              'message' => 'Data cannot find',
+              'status' => 400,
+          ]);
+      }
+
+      $validate = $request->validate([
+          'status' => 'required',
+      ]);
+
+      $hafalan->status = $request->status;
+      $hafalan->save();
+
+      return response()->json([
+          'message' => 'Data successfully updated',
+          'status' => 200,
+      ]);
+    }
+
 
     /**
      * Get the guard to be used during authentication.

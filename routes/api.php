@@ -86,7 +86,8 @@ Route::prefix('admin')->group(function () {
         Route::post('tambahmurojaah', [GuruController::class, 'tambahMurojaah']);
         Route::put('updatemurojaah/{id}', [GuruController::class, 'updateMurojaah']);
         Route::delete('deletemurojaah/{id}', [GuruController::class, 'destroyMurojaah']);
-
+        Route::get('kelas/{id}', [GuruController::class, 'kelas']);
+        Route::put('updateprofileguru/{id}', [GuruController::class, 'updateGuru']);
 
 
     });
@@ -99,6 +100,8 @@ Route::prefix('admin')->group(function () {
         Route::get('datatilawah/{data}', [OrtuController::class, 'dataTilawah']);
         Route::get('kelas/{id}', [OrtuController::class, 'kelasAnak']);
         Route::get('guru/{id}', [OrtuController::class, 'dataGuru']);
+        Route::put('updateprofileortu/{id}', [OrtuController::class, 'updateOrtu']);
+        Route::post('updatehafalan/{id}', [OrtuController::class, 'updateHafalan']);
     });
 
 

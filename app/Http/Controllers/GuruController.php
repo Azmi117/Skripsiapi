@@ -12,6 +12,7 @@ use App\Models\Murid;
 use App\Models\Murojaah;
 use App\Models\Tilawah;
 use App\Models\Hafalan;
+use App\Models\Kelas;
 
 
 use Illuminate\Http\Request;
@@ -26,7 +27,7 @@ class GuruController extends Controller
     public function daftarMurid()
     {
       $datauser = $this->guard()->user();
-      $isExixts = Murid::where('id_kelas', $datauser['id_kelas'])->exists();
+      $isExixts = Murid::where('id_kelas', $datauser['id_kelas'])->get();
       
 
       if (!$isExixts) {
@@ -410,6 +411,68 @@ class GuruController extends Controller
           'message' => 'delete successfully',
           'status' => 200
         ]);
+    }
+
+     public function kelas($id)
+    {
+      $isExixts = Kelas::find($id);
+
+       if (!$isExixts) {
+          return response()->json([
+            'message' => 'Data Empty',
+            'status' => 400
+          ]);
+        }
+  
+  
+        return response()->json([
+          'message' => 'Get successfully',
+          'data' => $isExixts,
+          'status' => 200,
+        ]);
+    }
+
+    public function updateGuru(Request $request, $id)
+    {
+        $guru = User::find($id);
+
+        if(!$guru) {
+           return response()->json([
+             'message' => 'Data cannot find',
+             'status' => 400,
+           ]);
+         }
+
+         $request->validate([
+            'email' => 'required',
+            'username' => 'required',
+            'nama_lengkap' => 'required',
+            'ttl' => 'required',
+        ]);
+
+         
+
+         $data = $guru->update([
+           'email' => $request->email,
+           'username' => $request->username,
+           'nama_lengkap' => $request->nama_lengkap,
+           'ttl' => $request->ttl,
+           //$kelas->updated_at => time(),
+         ]);
+
+         if (!$data) {
+           return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+         } else {
+           return response()->json([
+             'message' => 'Data successfully updated',
+             'data' => $data,
+             'status' => 200,
+           ]);
+         }
+        
     }
 
 
