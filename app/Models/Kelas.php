@@ -14,4 +14,9 @@ class Kelas extends Model
     ];
 
     protected $table = 'kelas';
+
+    protected $casts = [
+      'created_at' => 'date:Y-m-d',
+      'updated_at' => 'date:Y-m-d',
+    ];
 }

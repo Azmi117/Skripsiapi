@@ -48,48 +48,57 @@ Route::prefix('menus')->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
-
         Route::get('profile', [AdminController::class, 'profile']);
         Route::get('daftarguru', [AdminController::class, 'daftarGuru']);
         Route::get('daftarortu', [AdminController::class, 'daftarOrtu']);
         Route::post('registerakunguru', [AdminController::class, 'registerAkunGuru']);
         Route::post('registerakunortu', [AdminController::class, 'registerAkunOrtu']);
-        Route::put('updateguru/{id}', [AdminController::class, 'updateGuru']);
-        Route::put('updateortu/{id}', [AdminController::class, 'updateOrtu']);
+        Route::post('updateguru/{id}', [AdminController::class, 'updateGuru']);
+        Route::post('updateortu/{id}', [AdminController::class, 'updateOrtu']);
         Route::delete('deleteuser/{id}', [AdminController::class, 'destroyUser']);
+        Route::get('getuser/{id}', [AdminController::class, 'getUser']);
         Route::get('daftarkelas', [AdminController::class, 'daftarKelas']);
         Route::post('tambahkelas', [AdminController::class, 'tambahKelas']);
         Route::put('updatekelas/{id}', [AdminController::class, 'updateKelas']);
         Route::delete('deletekelas/{id}', [AdminController::class, 'destroyKelas']);
         Route::get('daftarmurid', [AdminController::class, 'daftarMurid']);
         Route::post('tambahmurid', [AdminController::class, 'tambahMurid']);
-        Route::put('updatemurid/{id}', [AdminController::class, 'updateMurid']);
+        Route::post('updatemurid/{id}', [AdminController::class, 'updateMurid']);
         Route::delete('deletemurid/{id}', [AdminController::class, 'destroyMurid']);
-   
+        Route::get('datamurid/{id}', [AdminController::class, 'dataMurid']);
+        Route::get('datakelas/{id}', [AdminController::class, 'dataKelas']);
+        Route::get('gurukelas/{id}', [AdminController::class, 'guruKelas']);
+        Route::get('muridkelas/{id}', [AdminController::class, 'muridKelas']);
     });
 
     Route::prefix('guru')->group(function () {
-
         Route::get('me', [GuruController::class, 'me']);
         Route::get('profile', [GuruController::class, 'profile']);
         Route::get('daftarmurid', [GuruController::class, 'daftarMurid']);
+        Route::get('datamurid/{id}', [GuruController::class, 'dataMurid']);
         Route::get('daftarhafalanmurid/{id}', [GuruController::class, 'daftarHafalanMurid']);
-        Route::get('daftarhafalanfilter/{id}/{status}', [GuruController::class, 'daftarHafalanFilter']);
+        Route::get('daftarhafalanfilter/{id_murid}/{status}', [GuruController::class, 'daftarHafalanFilter']);
         Route::post('tambahhafalan', [GuruController::class, 'tambahHafalan']);
         Route::post('updatehafalan/{id_input}', [GuruController::class, 'updateHafalan']);
         Route::delete('deletehafalan/{id}', [GuruController::class, 'destroyHafalan']);
+        Route::put('updatestatushafalan/{id}', [GuruController::class, 'updateStatusHafalan']);
+        Route::delete('deleteallhafalan/{id_input}', [GuruController::class, 'destroyAllHafalan']);
+        Route::get('daftarhafalandetail/{id_kelas}', [GuruController::class, 'dataHafalanDetail']);
         Route::get('daftartilawah', [GuruController::class, 'dataTilawah']);
         Route::post('tambahtilawah', [GuruController::class, 'tambahTilawah']);
         Route::put('updatetilawah/{id}', [GuruController::class, 'updateTilawah']);
         Route::delete('deletetilawah/{id}', [GuruController::class, 'destroyTilawah']);
+        Route::get('detailtilawah/{id}', [GuruController::class, 'detailTilawah']);
         Route::get('daftarmurojaah', [GuruController::class, 'dataMurojaah']);
         Route::post('tambahmurojaah', [GuruController::class, 'tambahMurojaah']);
         Route::put('updatemurojaah/{id}', [GuruController::class, 'updateMurojaah']);
         Route::delete('deletemurojaah/{id}', [GuruController::class, 'destroyMurojaah']);
+        Route::get('detailmurojaah/{id}', [GuruController::class, 'detailMurojaah']);
         Route::get('kelas/{id}', [GuruController::class, 'kelas']);
         Route::put('updateprofileguru/{id}', [GuruController::class, 'updateGuru']);
-
-
+        Route::get('daftarhafalankelas/{id_kelas}', [GuruController::class, 'dataHafalanKelas']);
+        Route::get('dataortu/{id}', [GuruController::class, 'dataOrtu']);
+        Route::get('datahafalan/{id}', [GuruController::class, 'dataHafalan']);
     });
 
     Route::prefix('ortu')->group(function () {

@@ -20,8 +20,10 @@ class Tilawah extends Model
       ];
 
       protected $table = 'tilawah';
-  
-      
-  
+
+      protected $casts = [
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
+      ];
     
 }

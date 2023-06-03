@@ -12,7 +12,9 @@ use App\Models\Murid;
 use App\Models\Murojaah;
 use App\Models\Tilawah;
 use App\Models\Hafalan;
+use App\Models\Hafalan_Detail;
 use App\Models\Kelas;
+use App\Models\User;
 
 
 use Illuminate\Http\Request;
@@ -64,9 +66,9 @@ class GuruController extends Controller
       ]);
     }
 
-    public function daftarHafalanFilter($id_murid,$status)
+    public function daftarHafalanFilter($id_murid, $status)
     {
-      $isExixts = Hafalan::where('id_murid', $id_murid && 'status', $status)->exists();
+      $isExixts = Hafalan_Detail::where('id_murid', $id_murid)->where('status', $status)->get();
 
       if (!$isExixts) {
         return response()->json([
@@ -83,102 +85,58 @@ class GuruController extends Controller
     }
 
     public function tambahHafalan(Request $request)
-    {
+{
+    $id_kelas = Auth::user()->id_kelas;
+    $datamurid = Murid::where('id_kelas', $id_kelas)->get();
 
-        $id_kelas = Auth::user()->id_kelas;
-        //$datauser = response()->json($this->guard()->user());
-        //$datauservar = json_decode($datauser);
+    $request->validate([
+        'surah' => 'required',
+        'juz' => 'required',
+        'ayat' => 'required',
+    ]);
 
-        $datamurid = Murid::where('id_kelas', $id_kelas)->get();
+    $random = Str::random(10);
+    $response = [];
 
+    $hafalan = Hafalan::create([
+      'surah' => $request->surah,
+      'juz' => $request->juz,
+      'ayat' => $request->ayat,
+      'id_kelas' => $id_kelas,
+      'id_input' => $random,
+  ]);
 
-        $request->validate([
-            'surah' => 'required',
-            'juz' => 'required',
-            'ayat' => 'required',
+    foreach ($datamurid as $r) {
+        $hafalan = Hafalan_detail::create([
+            'surah' => $request->surah,
+            'juz' => $request->juz,
+            'ayat' => $request->ayat,
+            'status' => 0,
+            'id_kelas' => $id_kelas,
+            'id_murid' => $r['id'],
+            'id_input' => $random,
         ]);
+
         
-        $random = Str::random(10);
-        foreach($datamurid as $r) {
 
-            $hafalan = Hafalan::create([
-                'surah' => $request->surah,
-                'juz' => $request->juz,
-                'ayat' => $request->ayat,
-                'status' => 0,
-                'id_kelas' => $id_kelas,
-                'id_murid' => $r['id'],
-                // 'created_at' => time(),
-                'id_input' => $random,
-    
-            ]);   
-
-        }
-
-        if ($hafalan) {
-          return response()->json([
-            'status' => 'success',
-            'message' => 'Data created successfully',
-            ],
-            200);
-        } else {
-          return response()->json([
-            'status' => 'failed',
-            'message' => 'Cannot created data'
-          ], 400);
+        if (!$hafalan) {
+            $response[] = [
+                'status' => 'failed',
+                'message' => 'Cannot create data for murid ID: ' . $r['id'],
+            ];
+            break; // Menghentikan loop jika terjadi kesalahan
         }
     }
 
-    public function updateHafalan(Request $request, $id_input)
-    {
-
-      //$datauser = $this->guard()->user();
-        // $hafalan = Hafalan::find($id);
-      $hafalan = Hafalan::where('id_input', $id_input)->get();
-
-        if(!$hafalan) {
-           return response()->json([
-             'message' => 'Data cannot find',
-             'status' => 400,
-           ]);
-         }
-
-           $validate = $request->validate([
-             'surah' => 'required',
-             'juz' => 'required',
-             'ayat' => 'required',
-             'status' => 'required',
-          ]);
-
-
-         foreach($hafalan as $r) {
-
-          // $data = $hafalan->update([
-            $r->surah = $request->surah;
-            $r->juz = $request->juz;
-            $r->ayat = $request->ayat;
-            $r->status = $request->status;
-            $r->save();
-            //$hafalan->id_kelas => $datauser['id_kelas'],
-            //$hafalan->updated_at => time(),
-          // ]);
-          
-
-      }
-
-      if (!$r) {
-        return response()->json([
-          'message' => 'Data cannot updated',
-          'status' => 400,
-        ]);
-      } else {
-        return response()->json([
-          'message' => 'Data successfully updated',
-          'status' => 200,
-        ]);
-      }
-        
+    if (!empty($response)) {
+        return response()->json($response, 400);
     }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Data created successfully',
+    ], 200);
+}
 
     public function destroyHafalan($id)
     {
@@ -228,8 +186,7 @@ class GuruController extends Controller
             'juz' => $request->juz,
             'ayat' => $request->ayat,
             'id_kelas' => $datauser['id_kelas'],
-            'created_at' => time(),
-
+            // 'created_at' => time(),
         ]);
 
         if ($tilawah) {
@@ -262,8 +219,6 @@ class GuruController extends Controller
             'juz' => 'required',
             'ayat' => 'required',
         ]);
-
-         
 
          $data = $tilawah->update([
            "surah" => $request->surah,
@@ -342,8 +297,7 @@ class GuruController extends Controller
             'juz' => $request->juz,
             'ayat' => $request->ayat,
             'id_kelas' => $user->id_kelas,
-            'created_at' => time(),
-
+            // 'created_at' => time(),
         ]);
 
         if ($murojaah) {
@@ -475,6 +429,227 @@ class GuruController extends Controller
         
     }
 
+    public function dataHafalanKelas($id_kelas)
+    {
+      $isExixts = Hafalan::where('id_kelas', $id_kelas)->get();
+
+      if (!$isExixts) {
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+    public function detailTilawah($id)
+    {
+      $tilawah = Tilawah::find($id);
+    
+      if(!$tilawah){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $tilawah,
+        'status' => 200,
+      ]);
+    }
+
+    public function detailMurojaah($id)
+    {
+      $tilawah = Murojaah::find($id);
+    
+      if(!$tilawah){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $tilawah,
+        'status' => 200,
+      ]);
+    }
+
+    public function dataMurid($id)
+    {
+      $isExixts = Murid::find($id);
+
+      if(!$isExixts){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+    public function dataOrtu($id)
+    {
+      $isExixts = User::where('id_murid', $id)->first();
+
+      if(!$isExixts){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+    public function destroyAllHafalan($id_input)
+    {
+        $hafalan = Hafalan::where('id_input', $id_input);
+        $hafalan->delete();
+
+        $hafalan2 = Hafalan_detail::where('id_input', $id_input);
+        $hafalan2->delete();
+
+        return response()->json([
+          'message' => 'delete successfully',
+          'status' => 200
+        ]);
+    }
+
+    public function dataHafalanDetail($id_kelas)
+    {
+      $isExixts = Hafalan::where('id_kelas', $id_kelas)->get();
+
+      if (!$isExixts) {
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+    public function updateHafalan(Request $request, $id_input)
+    {
+
+      $datauser = $this->guard()->user();
+        // $hafalan = Hafalan::find($id);
+      $hafalan = Hafalan_detail::where('id_input', $id_input)->get();
+      $hafalan2 = Hafalan::where('id_input', $id_input)->first();
+
+        if(!$hafalan) {
+           return response()->json([
+             'message' => 'Data cannot find',
+             'status' => 400,
+           ]);
+         }
+
+           $validate = $request->validate([
+             'surah' => 'required',
+             'juz' => 'required',
+             'ayat' => 'required',
+          ]);
+
+
+        //   Hafalan::updated([
+        //     'surah' => $request->surah,
+        //     'juz' => $request->juz,
+        //     'ayat' => $request->ayat,
+        // ]);
+
+        $hafalan2->surah = $request->surah;
+        $hafalan2->juz = $request->juz;
+        $hafalan2->ayat = $request->ayat;
+        $hafalan2->id_kelas = $datauser->id_kelas;
+        $hafalan2->save();
+
+         foreach($hafalan as $r) {
+
+          // $data = $hafalan->update([
+            $r->surah = $request->surah;
+            $r->juz = $request->juz;
+            $r->ayat = $request->ayat;
+            $r->status = 0;
+            $r->save();
+            //$hafalan->id_kelas => $datauser['id_kelas'],
+            //$hafalan->updated_at => time(),
+          // ]);
+          
+
+      }
+
+      if (!$r) {
+        return response()->json([
+          'message' => 'Data cannot updated',
+          'status' => 400,
+        ]);
+      } else {
+        return response()->json([
+          'message' => 'Data successfully updated',
+          'status' => 200,
+        ]);
+      }
+        
+    }
+
+    public function updateStatusHafalan($id)
+    {
+      $isExixts = Hafalan_Detail::find($id);
+
+      if(!$isExixts){
+         return response()->json([
+          'message' => 'Data cannot updated',
+          'status' => 400,
+        ]);
+      } 
+      $isExixts->update(['status' => '1']);
+      return response()->json([
+        'message' => 'Data successfully updated',
+        'status' => 200,
+      ]); 
+    }
+
+    public function dataHafalan($id)
+    {
+      $isExixts = Hafalan::find($id);
+
+      if(!$isExixts){
+         return response()->json([
+          'message' => 'Data cannot updated',
+          'status' => 400,
+        ]);
+      } 
+      return response()->json([
+        'message' => 'Data successfully updated',
+        'data' => $isExixts, 
+        'status' => 200,
+      ]); 
+
+    }
 
     /**
      * Get the guard to be used during authentication.

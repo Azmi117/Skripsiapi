@@ -20,4 +20,9 @@ class Murid extends Model
     ];
 
     protected $table = 'murid';
+
+    protected $casts = [
+      'created_at' => 'date:Y-m-d',
+      'updated_at' => 'date:Y-m-d',
+    ];
 }

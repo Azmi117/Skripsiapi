@@ -53,7 +53,6 @@ class AdminController extends Controller
         ]);
       }
 
-
       return response()->json([
         'message' => 'Get successfully',
         'data' => $isExixts,
@@ -84,10 +83,9 @@ class AdminController extends Controller
             'username' => 'required|unique:users',
             'nama_lengkap' => 'required',
             'password' => 'required',
-            'level' => 'required',
             'ttl' => 'required',
             'id_murid' => 'required',
-            'id_kelas',
+            // 'id_kelas',
         ]);
 
 
@@ -96,11 +94,11 @@ class AdminController extends Controller
             'username' => $request->username,
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
-            'level' => 'Orangtua',
+            'level' => 'Ortu',
             'ttl' => $request->ttl,
             'id_murid' => $request->id_murid,
-            'id_murid' => $request->id_kelas,
-            'created_at' => time(),
+            // 'id_murid' => $request->id_kelas,
+            // 'created_at' => time(),
         ]);
 
 
@@ -126,7 +124,6 @@ class AdminController extends Controller
             'username' => 'required|unique:users',
             'nama_lengkap' => 'required',
             'password' => 'required',
-            'level' => 'required',
             'ttl' => 'required',
             'id_kelas' => 'required',
         ]);
@@ -137,7 +134,7 @@ class AdminController extends Controller
             'username' => $request->username,
             'nama_lengkap' => $request->nama_lengkap,
             'password' => Hash::make($request->password),
-            'level' => 'Guru',
+            'level' => 'guru',
             'ttl' => $request->ttl,
             'id_kelas' => $request->id_kelas,
             //'created_at' => time(),
@@ -173,20 +170,16 @@ class AdminController extends Controller
             'email' => 'required',
             'username' => 'required',
             'nama_lengkap' => 'required',
-            'password' => 'required',
-            'level' => 'required',
             'ttl' => 'required',
             'id_kelas' => 'required',
         ]);
 
-         
-
+    
          $data = $guru->update([
            'email' => $request->email,
            'username' => $request->username,
            'nama_lengkap' => $request->nama_lengkap,
-           'password' => Hash::make($request->password),
-           'level' => $request->level,
+          //  'level' => 'guru',
            'ttl' => $request->ttl,
            'id_kelas' => $request->id_kelas,
            //$kelas->updated_at => time(),
@@ -219,44 +212,46 @@ class AdminController extends Controller
          }
 
          $request->validate([
-            'email' => 'required|string|unique:users,email,'.$user->id,
-            'username' => 'required|unique:users,username,' .$user->id,
+            'email' => 'required',
+            'username' => 'required',
             'nama_lengkap' => 'required',
-            'password' => 'required',
-            'level' => 'required',
+            // 'password' => 'required',
+            // 'level' => 'required',
             'ttl' => 'required',
             'id_murid' => 'required',
             // 'id_kelas',
         ]);
 
-         
 
-         $data = $user->fill([
-           'email' => $request->email,
-           'username' => $request->username,
-           'nama_lengkap' => $request->nama_lengkap,
-           'password' => Hash::make($request->password),
-           'level' => $request->level,
-           'ttl' => $request->ttl,
-           'id_murid' => $request->id_murid,
+           $user->email = $request->email;
+           $user->username = $request->username;
+           $user->nama_lengkap = $request->nama_lengkap;
+          //  'password' => Hash::make($request->password),
+           $user->ttl = $request->ttl;
+           $user->id_murid = $request->id_murid;
+           $user->save();
           //  'id_kelas' => $request->id_kelas,
           //  'updated_at' => time(),
-         ]);
 
-         $save = $data->save();
-
-         if (!$save) {
-           return response()->json([
-             'message' => 'Data cannot updated',
-             'status' => 400,
-           ]);
-         } else {
-           return response()->json([
+        //  $save = $data->save();
+        return response()->json([
              'message' => 'Data successfully updated',
-             'data' => $save,
+            //  'data' => $data,
              'status' => 200,
            ]);
-         }
+
+        //  if (!$data) {
+        //    return response()->json([
+        //      'message' => 'Data cannot updated',
+        //      'status' => 400,
+        //    ]);
+        //  } else {
+        //    return response()->json([
+        //      'message' => 'Data successfully updated',
+        //      'data' => $data,
+        //      'status' => 200,
+        //    ]);
+        //  }
         
     }
 
@@ -269,6 +264,23 @@ class AdminController extends Controller
           'message' => 'delete successfully',
           'status' => 200
         ]);
+    }
+
+    public function getUser($id)
+    {
+        $user = User::find($id);
+
+        if(!$user) {
+          return response()->json([
+          'message' => 'Failed or Empty data',
+          'status' => 400,
+        ]);
+        }
+        return response()->json([
+        'message' => 'Success',
+        'status' => 200,
+        'data' => $user
+      ]);
     }
 
 //========================================================================================================================//
@@ -300,7 +312,7 @@ public function daftarKelas()
 
         $kelas = Kelas::create([
             'nama_kelas' => $request->nama_kelas,
-            'created_at' => time(),
+            // 'created_at' => time(),
 
         ]);
 
@@ -403,8 +415,7 @@ public function daftarMurid()
           'ttl' => $request->ttl,
           'jenis_kelamin' => $request->jenis_kelamin,
           'id_kelas' => $request->id_kelas,
-          'created_at' => time(),
-
+          // 'created_at' => time(),
         ]);
 
         if ($murid) {
@@ -443,7 +454,7 @@ public function daftarMurid()
 
          $data = $murid->update([
            'nama_lengkap' => $request->nama_lengkap,
-           'tt' => $request->ttl,
+           'ttl' => $request->ttl,
            'jenis_kelamin' => $request->jenis_kelamin,
            'id_kelas' => $request->id_kelas,
            //$kelas->updated_at => time(),
@@ -473,6 +484,74 @@ public function daftarMurid()
           'message' => 'delete successfully',
           'status' => 200
         ]);
+    }
+
+    public function dataMurid($id)
+    {
+      $murid = Murid::find($id);
+      
+      if(!$murid){
+        return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+      }
+
+      return response()->json([
+        'message' => 'Data successfully updated',
+        'data' => $murid,
+        'status' => 200,
+      ]);
+    }
+
+    public function dataKelas($id)
+    {
+      $kelas = Kelas::find($id);
+
+      if(!$kelas){
+        return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+      }
+
+      return response()->json([
+        'message' => 'Data successfully updated',
+        'data' => $kelas,
+        'status' => 200,
+      ]);
+    }
+
+    public function guruKelas($id){
+      $isExixts = User::where('id_kelas', $id)->get();
+      if(!$isExixts){
+        return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+      }
+
+      return response()->json([
+        'message' => 'Data successfully updated',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+    public function muridKelas($id){
+      $isExixts = Murid::where('id_kelas', $id)->get();
+      if(!$isExixts){
+        return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+      }
+
+      return response()->json([
+        'message' => 'Data successfully updated',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
     }
 
     /**

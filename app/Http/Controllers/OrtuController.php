@@ -9,6 +9,7 @@ use App\Models\Murid;
 use App\Models\Murojaah;
 use App\Models\Tilawah;
 use App\Models\Hafalan;
+use App\Models\Hafalan_Detail;
 use App\Models\User;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
@@ -59,7 +60,7 @@ class OrtuController extends Controller
 
     public function dataHafalanFilter($id_murid,$status)
     {
-      $isExixts = Hafalan::where('id_murid', $id_murid)->where('status', $status)->get();
+      $isExixts = Hafalan_Detail::where('id_murid', $id_murid)->where('status', $status)->get();
       if (!$isExixts) {
         return response()->json([
           'message' => 'Data Empty',
@@ -172,8 +173,6 @@ class OrtuController extends Controller
             'ttl' => 'required',
         ]);
 
-         
-
          $data = $ortu->update([
            'email' => $request->email,
            'username' => $request->username,
@@ -199,7 +198,7 @@ class OrtuController extends Controller
 
     public function updateHafalan(Request $request, $id)
     {
-      $hafalan = Hafalan::find($id);
+      $hafalan = Hafalan_Detail::find($id);
 
       if (!$hafalan) {
           return response()->json([
