@@ -10,6 +10,9 @@ use App\Models\Murojaah;
 use App\Models\Tilawah;
 use App\Models\Hafalan;
 use App\Models\Hafalan_Detail;
+use App\Models\Hafalan_rumah;
+use App\Models\Murojaah_rumah;
+use App\Models\Tilawah_rumah;
 use App\Models\User;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
@@ -196,7 +199,7 @@ class OrtuController extends Controller
         
     }
 
-    public function updateHafalan(Request $request, $id)
+    public function updateHafalanRumah(Request $request, $id)
     {
       $hafalan = Hafalan_Detail::find($id);
 
@@ -218,6 +221,206 @@ class OrtuController extends Controller
           'message' => 'Data successfully updated',
           'status' => 200,
       ]);
+    }
+
+    public function tambahHafalan(Request $request)
+{
+    $id = Auth::user()->id_murid;
+
+    $request->validate([
+        'surah' => 'required',
+        'juz' => 'required',
+        'ayat' => 'required',
+    ]);
+
+
+    $hafalan = Hafalan_rumah::create([
+      'surah' => $request->surah,
+      'juz' => $request->juz,
+      'ayat' => $request->ayat,
+      'status' => 0,
+      'id_murid' => $id,
+  ]);
+
+    if (empty($hafalan)) {
+        return response()->json( ['status' => 'failed',
+        'message' => 'Data failed'], 400);
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Data created successfully',
+    ], 200);
+}
+
+
+public function tambahMurojaah(Request $request)
+{
+    $id = Auth::user()->id_murid;
+
+    $request->validate([
+        'surah' => 'required',
+        'juz' => 'required',
+        'ayat' => 'required',
+    ]);
+
+
+    $hafalan = Murojaah_rumah::create([
+      'surah' => $request->surah,
+      'juz' => $request->juz,
+      'ayat' => $request->ayat,
+      'status' => 0,
+      'id_murid' => $id,
+  ]);
+
+    if (empty($hafalan)) {
+        return response()->json( ['status' => 'failed',
+        'message' => 'Data failed'], 400);
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Data created successfully',
+    ], 200);
+}
+
+
+public function tambahTilawah(Request $request)
+{
+    $id = Auth::user()->id_murid;
+
+    $request->validate([
+        'surah' => 'required',
+        'juz' => 'required',
+        'ayat' => 'required',
+    ]);
+
+
+    $hafalan = Tilawah_rumah::create([
+      'surah' => $request->surah,
+      'juz' => $request->juz,
+      'ayat' => $request->ayat,
+      'status' => 0,
+      'id_murid' => $id,
+  ]);
+
+    if (empty($hafalan)) {
+        return response()->json( ['status' => 'failed',
+        'message' => 'Data failed'], 400);
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Data created successfully',
+    ], 200);
+}
+    
+
+    public function updateHafalan(Request $request, $id)
+    {
+      $hafalan = Hafalan_rumah::find($id);
+
+      if (!$hafalan) {
+          return response()->json([
+              'message' => 'Data cannot find',
+              'status' => 400,
+          ]);
+      }
+
+      $validate = $request->validate([
+          'status' => 'required',
+      ]);
+
+      $hafalan->status = $request->status;
+      $hafalan->save();
+
+      return response()->json([
+          'message' => 'Data successfully updated',
+          'status' => 200,
+      ]);
+    }
+
+    public function updateMurojaah(Request $request, $id)
+    {
+      $hafalan = Murojaah_rumah::find($id);
+
+      if (!$hafalan) {
+          return response()->json([
+              'message' => 'Data cannot find',
+              'status' => 400,
+          ]);
+      }
+
+      $validate = $request->validate([
+          'status' => 'required',
+      ]);
+
+      $hafalan->status = $request->status;
+      $hafalan->save();
+
+      return response()->json([
+          'message' => 'Data successfully updated',
+          'status' => 200,
+      ]);
+    }
+
+    public function updateTilawah(Request $request, $id)
+    {
+      $hafalan = Tilawah_rumah::find($id);
+
+      if (!$hafalan) {
+          return response()->json([
+              'message' => 'Data cannot find',
+              'status' => 400,
+          ]);
+      }
+
+      $validate = $request->validate([
+          'status' => 'required',
+      ]);
+
+      $hafalan->status = $request->status;
+      $hafalan->save();
+
+      return response()->json([
+          'message' => 'Data successfully updated',
+          'status' => 200,
+      ]);
+    }
+
+
+    public function destroyHafalan($id)
+    {
+        $hafalan = Hafalan_rumah::find($id);
+        $hafalan->delete();
+
+        return response()->json([
+          'message' => 'delete successfully',
+          'status' => 200
+        ]);
+    }
+
+
+    public function destroyMurojaah($id)
+    {
+        $hafalan = Murojaah_rumah::find($id);
+        $hafalan->delete();
+
+        return response()->json([
+          'message' => 'delete successfully',
+          'status' => 200
+        ]);
+    }
+
+    public function destroyTilawah($id)
+    {
+        $hafalan = Tilawah_rumah::find($id);
+        $hafalan->delete();
+
+        return response()->json([
+          'message' => 'delete successfully',
+          'status' => 200
+        ]);
     }
 
 

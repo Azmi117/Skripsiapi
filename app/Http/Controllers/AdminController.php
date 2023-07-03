@@ -510,13 +510,13 @@ public function daftarMurid()
 
       if(!$kelas){
         return response()->json([
-             'message' => 'Data cannot updated',
+             'message' => 'Data cannot find',
              'status' => 400,
            ]);
       }
 
       return response()->json([
-        'message' => 'Data successfully updated',
+        'message' => 'Data successfully find',
         'data' => $kelas,
         'status' => 200,
       ]);

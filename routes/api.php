@@ -111,6 +111,15 @@ Route::prefix('admin')->group(function () {
         Route::get('guru/{id}', [OrtuController::class, 'dataGuru']);
         Route::put('updateprofileortu/{id}', [OrtuController::class, 'updateOrtu']);
         Route::post('updatehafalan/{id}', [OrtuController::class, 'updateHafalan']);
+        Route::post('tambahhafalan', [OrtuController::class, 'tambahHafalan']);
+        Route::post('tambahmurojaah', [OrtuController::class, 'tambahMurojaah']);
+        Route::post('tambahtilawah', [OrtuController::class, 'tambahTilawah']);
+        Route::post('updatehafalanrumah/{id}', [OrtuController::class, 'updateHafalanRumah']);
+        Route::post('updatemurojaah/{id}', [OrtuController::class, 'updateMurojaah']);
+        Route::post('updatetilawah/{id}', [OrtuController::class, 'updateTilawah']);
+        Route::delete('deletehafalan/{id}', [OrtuController::class, 'destroyHafalan']);
+        Route::delete('deletemurojaah/{id}', [OrtuController::class, 'destroyMurojaah']);
+        Route::delete('deletetilawah/{id}', [OrtuController::class, 'destroyTilawah']);
     });
 
 
