@@ -279,8 +279,7 @@ class GuruController extends Controller
     public function tambahMurojaah(Request $request)
     {
 
-        
-      
+    
         $datauser = Auth::user();
 
         $user = JWTAuth::parseToken()->toUser();

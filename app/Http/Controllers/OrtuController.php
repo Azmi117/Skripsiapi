@@ -316,7 +316,7 @@ public function tambahTilawah(Request $request)
 }
     
 
-    public function updateHafalan(Request $request, $id)
+    public function updateStatusHafalan(Request $request, $id)
     {
       $hafalan = Hafalan_rumah::find($id);
 
@@ -340,7 +340,7 @@ public function tambahTilawah(Request $request)
       ]);
     }
 
-    public function updateMurojaah(Request $request, $id)
+    public function updateStatusMurojaah(Request $request, $id)
     {
       $hafalan = Murojaah_rumah::find($id);
 
@@ -364,7 +364,7 @@ public function tambahTilawah(Request $request)
       ]);
     }
 
-    public function updateTilawah(Request $request, $id)
+    public function updateStatusTilawah(Request $request, $id)
     {
       $hafalan = Tilawah_rumah::find($id);
 
@@ -423,6 +423,235 @@ public function tambahTilawah(Request $request)
         ]);
     }
 
+    public function dataHafalanFilterRumah($id_murid,$status)
+    {
+      $isExixts = Hafalan_rumah::where('id_murid', $id_murid)->where('status', $status)->get();
+      if (!$isExixts) {
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+
+    public function dataMurojaahFilter($id_murid,$status)
+    {
+      $isExixts = Murojaah_rumah::where('id_murid', $id_murid)->where('status', $status)->get();
+      if (!$isExixts) {
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+    public function dataTilawahFilter($id_murid,$status)
+    {
+      $isExixts = Tilawah_rumah::where('id_murid', $id_murid)->where('status', $status)->get();
+      if (!$isExixts) {
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $isExixts,
+        'status' => 200,
+      ]);
+    }
+
+
+    public function detailHafalanRumah($id)
+    {
+      $tilawah = Hafalan_rumah::find($id);
+    
+      if(!$tilawah){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $tilawah,
+        'status' => 200,
+      ]);
+    }
+
+
+    public function detailMurojaahRumah($id)
+    {
+      $tilawah = Murojaah_rumah::find($id);
+    
+      if(!$tilawah){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $tilawah,
+        'status' => 200,
+      ]);
+    }
+
+    public function detailTilawahRumah($id)
+    {
+      $tilawah = Tilawah_rumah::find($id);
+    
+      if(!$tilawah){
+        return response()->json([
+          'message' => 'Data Empty',
+          'status' => 400
+        ]);
+      }
+
+      return response()->json([
+        'message' => 'Get successfully',
+        'data' => $tilawah,
+        'status' => 200,
+      ]);
+    }
+
+     public function updateHafalan(Request $request, $id)
+    {
+        $tilawah = Hafalan_rumah::find($id);
+
+        if(!$tilawah) {
+           return response()->json([
+             'message' => 'Data cannot find',
+             'status' => 400,
+           ]);
+         }
+
+         $request->validate([
+            'surah' => 'required',
+            'juz' => 'required',
+            'ayat' => 'required',
+        ]);
+
+         $data = $tilawah->update([
+           "surah" => $request->surah,
+           "juz" => $request->juz,
+           "ayat" => $request->ayat,
+           //$tilawah->updated_at => time(),
+         ]);
+
+         if (!$data) {
+           return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+         } else {
+           return response()->json([
+             'message' => 'Data successfully updated',
+             'status' => 200,
+             'data' => $tilawah,
+           ]);
+         }
+        
+    }
+
+    public function updateMurojaah(Request $request, $id)
+    {
+        $tilawah = Murojaah_rumah::find($id);
+
+        if(!$tilawah) {
+           return response()->json([
+             'message' => 'Data cannot find',
+             'status' => 400,
+           ]);
+         }
+
+         $request->validate([
+            'surah' => 'required',
+            'juz' => 'required',
+            'ayat' => 'required',
+        ]);
+
+         $data = $tilawah->update([
+           "surah" => $request->surah,
+           "juz" => $request->juz,
+           "ayat" => $request->ayat,
+           //$tilawah->updated_at => time(),
+         ]);
+
+         if (!$data) {
+           return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+         } else {
+           return response()->json([
+             'message' => 'Data successfully updated',
+             'status' => 200,
+             'data' => $tilawah,
+           ]);
+         }
+        
+    }
+
+    public function updateTilawah(Request $request, $id)
+    {
+        $tilawah = Tilawah_rumah::find($id);
+
+        if(!$tilawah) {
+           return response()->json([
+             'message' => 'Data cannot find',
+             'status' => 400,
+           ]);
+         }
+
+         $request->validate([
+            'surah' => 'required',
+            'juz' => 'required',
+            'ayat' => 'required',
+        ]);
+
+         
+
+         $data = $tilawah->update([
+           "surah" => $request->surah,
+           "juz" => $request->juz,
+           "ayat" => $request->ayat,
+           //$tilawah->updated_at => time(),
+         ]);
+
+         if (!$data) {
+           return response()->json([
+             'message' => 'Data cannot updated',
+             'status' => 400,
+           ]);
+         } else {
+           return response()->json([
+             'message' => 'Data successfully updated',
+             'status' => 200,
+             'data' => $tilawah,
+           ]);
+         }
+        
+    }
 
     /**
      * Get the guard to be used during authentication.

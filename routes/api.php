@@ -114,12 +114,21 @@ Route::prefix('admin')->group(function () {
         Route::post('tambahhafalan', [OrtuController::class, 'tambahHafalan']);
         Route::post('tambahmurojaah', [OrtuController::class, 'tambahMurojaah']);
         Route::post('tambahtilawah', [OrtuController::class, 'tambahTilawah']);
-        Route::post('updatehafalanrumah/{id}', [OrtuController::class, 'updateHafalanRumah']);
+        Route::post('updatestatushafalan/{id}', [OrtuController::class, 'updateStatusHafalan']);
+        Route::post('updatestatusmurojaah/{id}', [OrtuController::class, 'updateStatusMurojaah']);
+        Route::post('updatestatustilawah/{id}', [OrtuController::class, 'updateStatusTilawah']);
+        Route::post('updatehafalan/{id}', [OrtuController::class, 'updateHafalan']);
         Route::post('updatemurojaah/{id}', [OrtuController::class, 'updateMurojaah']);
         Route::post('updatetilawah/{id}', [OrtuController::class, 'updateTilawah']);
         Route::delete('deletehafalan/{id}', [OrtuController::class, 'destroyHafalan']);
         Route::delete('deletemurojaah/{id}', [OrtuController::class, 'destroyMurojaah']);
         Route::delete('deletetilawah/{id}', [OrtuController::class, 'destroyTilawah']);
+        Route::get('datahafalanfilterumah/{id_murid}/{status}', [OrtuController::class, 'dataHafalanFilterRumah']);
+        Route::get('datamurojaahfilter/{id_murid}/{status}', [OrtuController::class, 'dataMurojaahFilter']);
+        Route::get('datatilawahfilter/{id_murid}/{status}', [OrtuController::class, 'dataTilawahFilter']);
+        Route::get('detailhafalanrumah/{id}', [OrtuController::class, 'detailHafalanRumah']);
+        Route::get('detailmurojaahrumah/{id}', [OrtuController::class, 'detailMurojaahRumah']);
+        Route::get('detailtilawahrumah/{id}', [OrtuController::class, 'detailTilawahRumah']);
     });
 
 
