@@ -15,8 +15,9 @@ use App\Models\Hafalan;
 use App\Models\Hafalan_Detail;
 use App\Models\Kelas;
 use App\Models\User;
-
-
+use App\Models\View_hafalan;
+use App\Models\View_hafalan_lama;
+use App\Models\View_tilawah;
 use Illuminate\Http\Request;
 
 class GuruController extends Controller
@@ -116,7 +117,6 @@ class GuruController extends Controller
             'id_murid' => $r['id'],
             'id_input' => $random,
         ]);
-
         
 
         if (!$hafalan) {
@@ -126,6 +126,20 @@ class GuruController extends Controller
             ];
             break; // Menghentikan loop jika terjadi kesalahan
         }
+    }
+
+    foreach ($datamurid as $i) {
+      $datakelas = Kelas::where('id', $id_kelas)->first();
+         View_hafalan::create([
+              'surah' => $request->surah,
+              'juz' => $request->juz,
+              'ayat' => $request->ayat,
+              'status' => "Belum selesai",
+              'nama_kelas' => $datakelas->nama_kelas,
+              'nama_murid' => $i['nama_lengkap'],
+
+        ]);
+
     }
 
     if (!empty($response)) {
@@ -173,6 +187,8 @@ class GuruController extends Controller
     {
 
         $datauser = $this->guard()->user();
+        $id_kelas = $datauser['id_kelas'];
+        $datakelas = Kelas::where('id', $id_kelas)->first();
 
         $request->validate([
             'surah' => 'required',
@@ -188,6 +204,14 @@ class GuruController extends Controller
             'id_kelas' => $datauser['id_kelas'],
             // 'created_at' => time(),
         ]);
+
+        $laporan = View_tilawah::create([
+          'surah' => $request->surah,
+          'juz' => $request->juz,
+          'ayat' => $request->ayat,
+          'status' => "Belum selesai",
+          'nama_kelas' => $datakelas->nama_kelas,
+    ]);
 
         if ($tilawah) {
           return response()->json([
@@ -283,7 +307,9 @@ class GuruController extends Controller
         $datauser = Auth::user();
 
         $user = JWTAuth::parseToken()->toUser();
-
+        $id_kelas = $datauser['id_kelas'];
+        $datakelas = Kelas::where('id', $id_kelas)->first();
+        
         $request->validate([
             'surah' => 'required',
             'juz' => 'required',
@@ -297,6 +323,14 @@ class GuruController extends Controller
             'ayat' => $request->ayat,
             'id_kelas' => $user->id_kelas,
             // 'created_at' => time(),
+        ]);
+
+        $laporan = View_hafalan_lama::create([
+              'surah' => $request->surah,
+              'juz' => $request->juz,
+              'ayat' => $request->ayat,
+              'status' => "Belum selesai",
+              'nama_kelas' => $datakelas->nama_kelas,
         ]);
 
         if ($murojaah) {
@@ -629,7 +663,8 @@ class GuruController extends Controller
       return response()->json([
         'message' => 'Data successfully updated',
         'status' => 200,
-      ]); 
+      ]);
+      
     }
 
     public function dataHafalan($id)

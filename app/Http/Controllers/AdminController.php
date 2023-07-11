@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Exports\HafalanExport;
+use App\Exports\Hafalan_lama_Export;
+use App\Exports\Hafalan_Rumah_Export;
+use App\Exports\Hafalan_Lama_Rumah_Export;
+use App\Exports\Tilawah_Rumah_Export;
+use App\Exports\Tilawah_Export;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
-
-
+use Maatwebsite\Excel\Facades\Excel;
 
 use App\Models\User;
 use App\Models\Kelas;
@@ -553,6 +558,32 @@ public function daftarMurid()
         'status' => 200,
       ]);
     }
+
+  public function filterlaporan($tanggal) {
+    return Excel::download(new HafalanExport($tanggal), 'Hafalan Baru.xlsx');
+  }
+
+  public function filterlaporanhafalanlama($tanggal) {
+    return Excel::download(new Hafalan_lama_Export($tanggal), 'Hafalan Lama.xlsx');
+  }
+
+  public function filterlaporantilawah($tanggal) {
+    return Excel::download(new Tilawah_Export($tanggal), 'Tilawah.xlsx');
+  }
+
+  public function filterlaporanhafalanrumah($tanggal) {
+    return Excel::download(new Hafalan_Rumah_Export($tanggal), 'Hafalan Baru Rumah.xlsx');
+  }
+
+  public function filterlaporanhafalanlamarumah($tanggal) {
+    return Excel::download(new Hafalan_Lama_Rumah_Export($tanggal), 'Hafalan Lama Rumah.xlsx');
+  }
+
+  public function filterlaporantilawahmarumah($tanggal) {
+    return Excel::download(new Tilawah_Rumah_Export($tanggal), 'Tilawah Rumah.xlsx');
+  }
+
+
 
     /**
      * Get the guard to be used during authentication.

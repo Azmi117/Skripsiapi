@@ -15,6 +15,9 @@ use App\Models\Murojaah_rumah;
 use App\Models\Tilawah_rumah;
 use App\Models\User;
 use App\Models\Kelas;
+use App\Models\View_hafalan_rumah;
+use App\Models\View_hafalan_lama_rumah;
+use App\Models\View_tilawah_rumah;
 use Illuminate\Http\Request;
 
 class OrtuController extends Controller
@@ -225,6 +228,9 @@ class OrtuController extends Controller
 
     public function tambahHafalan(Request $request)
 {
+    $id_murid = Auth::user()->id_murid;
+    $datamurid = Murid::where('id', $id_murid)->first();
+    $datakelas = Kelas::where('id', $datamurid['id_kelas'])->first();
     $id = Auth::user()->id_murid;
 
     $request->validate([
@@ -241,6 +247,14 @@ class OrtuController extends Controller
       'status' => 0,
       'id_murid' => $id,
   ]);
+          $laporan = View_hafalan_rumah::create([
+                'surah' => $request->surah,
+                'juz' => $request->juz,
+                'ayat' => $request->ayat,
+                'status' => "Belum selesai",
+                'nama_kelas' => $datakelas->nama_kelas,
+                'nama_murid' => $datamurid->nama_lengkap,
+    ]);
 
     if (empty($hafalan)) {
         return response()->json( ['status' => 'failed',
@@ -256,6 +270,9 @@ class OrtuController extends Controller
 
 public function tambahMurojaah(Request $request)
 {
+    $id_murid = Auth::user()->id_murid;
+    $datamurid = Murid::where('id', $id_murid)->first();
+    $datakelas = Kelas::where('id', $datamurid['id_kelas'])->first();
     $id = Auth::user()->id_murid;
 
     $request->validate([
@@ -273,6 +290,15 @@ public function tambahMurojaah(Request $request)
       'id_murid' => $id,
   ]);
 
+    $laporan = View_hafalan_lama_rumah::create([
+    'surah' => $request->surah,
+    'juz' => $request->juz,
+    'ayat' => $request->ayat,
+    'status' => "Belum selesai",
+    'nama_kelas' => $datakelas->nama_kelas,
+    'nama_murid' => $datamurid->nama_lengkap,
+]);
+
     if (empty($hafalan)) {
         return response()->json( ['status' => 'failed',
         'message' => 'Data failed'], 400);
@@ -287,6 +313,9 @@ public function tambahMurojaah(Request $request)
 
 public function tambahTilawah(Request $request)
 {
+  $id_murid = Auth::user()->id_murid;
+  $datamurid = Murid::where('id', $id_murid)->first();
+  $datakelas = Kelas::where('id', $datamurid['id_kelas'])->first();
     $id = Auth::user()->id_murid;
 
     $request->validate([
@@ -303,6 +332,15 @@ public function tambahTilawah(Request $request)
       'status' => 0,
       'id_murid' => $id,
   ]);
+
+  $laporan = View_tilawah_rumah::create([
+    'surah' => $request->surah,
+    'juz' => $request->juz,
+    'ayat' => $request->ayat,
+    'status' => "Belum selesai",
+    'nama_kelas' => $datakelas->nama_kelas,
+    'nama_murid' => $datamurid->nama_lengkap,
+]);
 
     if (empty($hafalan)) {
         return response()->json( ['status' => 'failed',

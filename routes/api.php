@@ -69,6 +69,13 @@ Route::prefix('admin')->group(function () {
         Route::get('datakelas/{id}', [AdminController::class, 'dataKelas']);
         Route::get('gurukelas/{id}', [AdminController::class, 'guruKelas']);
         Route::get('muridkelas/{id}', [AdminController::class, 'muridKelas']);
+        Route::get('laporanhafalan', [AdminController::class, 'laporanhafalan']);
+        Route::get('filterlaporan/{tanggal}', [AdminController::class, 'filterlaporan']);
+        Route::get('filterlaporanlama/{tanggal}', [AdminController::class, 'filterlaporanhafalanlama']);
+        Route::get('filterlaporantilawah/{tanggal}', [AdminController::class, 'filterlaporantilawah']);
+        Route::get('filterlaporanhafalanrumah/{tanggal}', [AdminController::class, 'filterlaporanhafalanrumah']);
+        Route::get('filterlaporanhafalanlamarumah/{tanggal}', [AdminController::class, 'filterlaporanhafalanlamarumah']);
+        Route::get('filterlaporantilawahrumah/{tanggal}', [AdminController::class, 'filterlaporantilawahmarumah']);
     });
 
     Route::prefix('guru')->group(function () {
