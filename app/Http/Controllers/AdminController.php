@@ -17,6 +17,12 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Models\User;
 use App\Models\Kelas;
 use App\Models\Murid;
+use App\Models\View_hafalan;
+use App\Models\View_hafalan_lama;
+use App\Models\View_tilawah;
+use App\Models\View_hafalan_rumah;
+use App\Models\View_hafalan_lama_rumah;
+use App\Models\View_tilawah_rumah;
 
 
 
@@ -559,29 +565,104 @@ public function daftarMurid()
       ]);
     }
 
-  public function filterlaporan($tanggal) {
-    return Excel::download(new HafalanExport($tanggal), 'Hafalan Baru.xlsx');
+  public function filterlaporan($from, $to) {
+    $data = View_hafalan::whereBetween('created_at', [$from,$to])->get();
+    if(empty($data)){
+      return response()->json([
+        'message' => 'Data cannot updated',
+        'status' => 400,
+      ]);
+    }
+
+    return response()->json(['message' => 'Data successfully updated',
+      'data' => $data,
+      'status' => 200,
+    ]);
+
+    // return Excel::download(new HafalanExport($tanggal), 'Hafalan Baru.xlsx');
   }
 
-  public function filterlaporanhafalanlama($tanggal) {
-    return Excel::download(new Hafalan_lama_Export($tanggal), 'Hafalan Lama.xlsx');
+  public function filterlaporanhafalanlama($from, $to) {
+    $data = View_hafalan_lama::whereBetween('created_at', [$from,$to])->get();
+    if(empty($data)){
+      return response()->json([
+        'message' => 'Data cannot updated',
+        'status' => 400,
+      ]);
+    }
+
+    return response()->json(['message' => 'Data successfully updated',
+      'data' => $data,
+      'status' => 200,
+    ]);
+    // return Excel::download(new Hafalan_lama_Export($tanggal), 'Hafalan Lama.xlsx');
   }
 
-  public function filterlaporantilawah($tanggal) {
-    return Excel::download(new Tilawah_Export($tanggal), 'Tilawah.xlsx');
+  public function filterlaporantilawah($from, $to) {
+    $data = View_tilawah::whereBetween('created_at', [$from,$to])->get();
+    if(empty($data)){
+      return response()->json([
+        'message' => 'Data cannot updated',
+        'status' => 400,
+      ]);
+    }
+
+    return response()->json(['message' => 'Data successfully updated',
+      'data' => $data,
+      'status' => 200,
+    ]);
+    // return Excel::download(new Tilawah_Export($tanggal), 'Tilawah.xlsx');
   }
 
-  public function filterlaporanhafalanrumah($tanggal) {
-    return Excel::download(new Hafalan_Rumah_Export($tanggal), 'Hafalan Baru Rumah.xlsx');
+  public function filterlaporanhafalanrumah($from, $to) {
+    $data = View_hafalan_rumah::whereBetween('created_at', [$from,$to])->get();
+    if(empty($data)){
+      return response()->json([
+        'message' => 'Data cannot updated',
+        'status' => 400,
+      ]);
+    }
+
+    return response()->json(['message' => 'Data successfully updated',
+      'data' => $data,
+      'status' => 200,
+    ]);
+    // return Excel::download(new Hafalan_Rumah_Export($tanggal), 'Hafalan Baru Rumah.xlsx');
   }
 
-  public function filterlaporanhafalanlamarumah($tanggal) {
-    return Excel::download(new Hafalan_Lama_Rumah_Export($tanggal), 'Hafalan Lama Rumah.xlsx');
+  public function filterlaporanhafalanlamarumah($from, $to) {
+    $data = View_hafalan_lama_rumah::whereBetween('created_at', [$from,$to])->get();
+    if(empty($data)){
+      return response()->json([
+        'message' => 'Data cannot updated',
+        'status' => 400,
+      ]);
+    }
+
+    return response()->json(['message' => 'Data successfully updated',
+      'data' => $data,
+      'status' => 200,
+    ]);
+    // return Excel::download(new Hafalan_Lama_Rumah_Export($tanggal), 'Hafalan Lama Rumah.xlsx');
   }
 
-  public function filterlaporantilawahmarumah($tanggal) {
-    return Excel::download(new Tilawah_Rumah_Export($tanggal), 'Tilawah Rumah.xlsx');
+  public function filterlaporantilawahmarumah($from, $to) {
+    $data = View_tilawah_rumah::whereBetween('created_at', [$from,$to])->get();
+    if(empty($data)){
+      return response()->json([
+        'message' => 'Data cannot updated',
+        'status' => 400,
+      ]);
+    }
+
+    return response()->json(['message' => 'Data successfully updated',
+      'data' => $data,
+      'status' => 200,
+    ]);
+    // return Excel::download(new Tilawah_Rumah_Export($tanggal), 'Tilawah Rumah.xlsx');
   }
+
+  
 
 
 

@@ -70,12 +70,12 @@ Route::prefix('admin')->group(function () {
         Route::get('gurukelas/{id}', [AdminController::class, 'guruKelas']);
         Route::get('muridkelas/{id}', [AdminController::class, 'muridKelas']);
         Route::get('laporanhafalan', [AdminController::class, 'laporanhafalan']);
-        Route::get('filterlaporan/{tanggal}', [AdminController::class, 'filterlaporan']);
-        Route::get('filterlaporanlama/{tanggal}', [AdminController::class, 'filterlaporanhafalanlama']);
-        Route::get('filterlaporantilawah/{tanggal}', [AdminController::class, 'filterlaporantilawah']);
-        Route::get('filterlaporanhafalanrumah/{tanggal}', [AdminController::class, 'filterlaporanhafalanrumah']);
-        Route::get('filterlaporanhafalanlamarumah/{tanggal}', [AdminController::class, 'filterlaporanhafalanlamarumah']);
-        Route::get('filterlaporantilawahrumah/{tanggal}', [AdminController::class, 'filterlaporantilawahmarumah']);
+        Route::get('filterlaporan/{from}/{to}', [AdminController::class, 'filterlaporan']);
+        Route::get('filterlaporanlama/{from}/{to}', [AdminController::class, 'filterlaporanhafalanlama']);
+        Route::get('filterlaporantilawah/{from}/{to}', [AdminController::class, 'filterlaporantilawah']);
+        Route::get('filterlaporanhafalanrumah/{from}/{to}', [AdminController::class, 'filterlaporanhafalanrumah']);
+        Route::get('filterlaporanhafalanlamarumah/{from}/{to}', [AdminController::class, 'filterlaporanhafalanlamarumah']);
+        Route::get('filterlaporantilawahrumah/{from}/{to}', [AdminController::class, 'filterlaporantilawahmarumah']);
     });
 
     Route::prefix('guru')->group(function () {
